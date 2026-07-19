@@ -184,7 +184,17 @@ else
 command -v starship &>/dev/null && eval "$(starship init bash)"
 
 # fzf — Ctrl+R historique, Ctrl+T fichiers, Alt+C dossiers
-command -v fzf &>/dev/null && eval "$(fzf --bash)"
+# Noble livre fzf < 0.48 (pas de `fzf --bash`) → fallback fichiers du paquet
+if command -v fzf &>/dev/null; then
+  if fzf --bash &>/dev/null; then
+    eval "$(fzf --bash)"
+  else
+    [[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] \
+      && source /usr/share/doc/fzf/examples/key-bindings.bash
+    [[ -f /usr/share/doc/fzf/examples/completion.bash ]] \
+      && source /usr/share/doc/fzf/examples/completion.bash
+  fi
+fi
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
 
 # Historique étendu
@@ -204,6 +214,9 @@ if command -v eza &>/dev/null; then
   alias la='eza -a  --color=always --group-directories-first --icons'
   alias ll='eza -l  --color=always --group-directories-first --icons'
   alias lt='eza -aT --color=always --group-directories-first --icons'
+  # Override de l'alias stock Mint `l='ls -CF'` : sinon il chaîne dans
+  # l'alias eza ci-dessus → `eza ... -CF` → "Unknown argument -C"
+  alias l='eza --color=always --group-directories-first --icons'
 fi
 
 # apt
