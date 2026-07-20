@@ -37,7 +37,7 @@ client.urgent           $red     $red     $bg   $red      $red
 bindsym $mod+Return exec --no-startup-id sh -c 'command -v waveterm >/dev/null && exec waveterm || exec alacritty'
 bindsym $mod+Shift+Return exec --no-startup-id alacritty
 bindsym $mod+space exec --no-startup-id rofi -show drun
-bindsym $mod+b exec --no-startup-id sh -c 'exec $(command -v brave-origin || command -v brave-browser)'
+bindsym $mod+b exec --no-startup-id sh -c 'exec $(command -v brave-origin || command -v brave-browser || command -v x-www-browser)'
 bindsym $mod+e exec --no-startup-id nemo
 
 # ── Fenêtres — navigation (HJKL + flèches) ────────────────────────────────────
@@ -105,15 +105,18 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 
 # Envoyer sans suivre (équiv. switch_group=False qtile)
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
+# bindcode (keycodes 10-18 = rangée des chiffres) et non bindsym :
+# en ch-fr QWERTZ, Shift+1..9 produit + " * ç % & / ( ) — un
+# « bindsym $mod+Shift+1 » ne se déclencherait jamais (bug i3 layouts non-US)
+bindcode $mod+Shift+10 move container to workspace $ws1
+bindcode $mod+Shift+11 move container to workspace $ws2
+bindcode $mod+Shift+12 move container to workspace $ws3
+bindcode $mod+Shift+13 move container to workspace $ws4
+bindcode $mod+Shift+14 move container to workspace $ws5
+bindcode $mod+Shift+15 move container to workspace $ws6
+bindcode $mod+Shift+16 move container to workspace $ws7
+bindcode $mod+Shift+17 move container to workspace $ws8
+bindcode $mod+Shift+18 move container to workspace $ws9
 
 # ── Audio (PipeWire/wpctl — identique qtile) ──────────────────────────────────
 bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+

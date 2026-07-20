@@ -19,6 +19,11 @@ mint/
 ├── configs/
 │   └── waveterm/           # settings.json · connections.json · waveai.json
 │                           # (source : debiantrixie/configs/waveterm)
+├── i3/
+│   ├── install-i3.sh       # i3 + polybar + picom + rofi + dunst (style DTOS)
+│   ├── config              # config i3 (Doom One, clavier ch-fr)
+│   ├── polybar/            # config.ini · launch.sh · i3-layout.py
+│   ├── picom/  rofi/  dunst/
 └── README.md
 ```
 
@@ -92,6 +97,74 @@ sudo bash mint/optimize-mint.sh --dns-cache   # + cache DNS systemd-resolved (op
 | Betterbird | Script officiel du projet → `/opt/betterbird` + client mail par défaut (`xdg-settings`) |
 
 > **Note Betterbird** : il n'existe **pas de PPA officiel**. Méthodes officielles : script d'installation du projet (utilisé ici, gère aussi les mises à jour en le relançant) ou Flatpak `eu.betterbird.Betterbird`. Le script bascule sur un message d'erreur avec l'alternative Flatpak en cas d'échec.
+
+
+### 3. install-i3.sh — session i3 style DTOS (optionnel)
+
+```bash
+bash mint/i3/install-i3.sh --dry-run    # aperçu
+bash mint/i3/install-i3.sh              # exécution (utilisateur normal, sudo au besoin)
+```
+
+Installe i3 (gaps natifs ≥ 4.22), Polybar, picom, rofi, dunst, nitrogen, flameshot,
+xsecurelock + Mononoki Nerd Font, puis déploie les configs (backup automatique de
+l'existant) et valide avec `i3 -C`. Session « i3 » disponible à l'écran de connexion.
+
+#### Keybinds i3 (Super = touche Windows, clavier ch-fr)
+
+Applications :
+
+| Bind | Action |
+|------|--------|
+| `Super+Return` | WaveTerm (fallback Alacritty) |
+| `Super+Shift+Return` | Alacritty |
+| `Super+Space` | rofi (lanceur d'applications) |
+| `Super+b` | Brave (brave-origin, fallback brave-browser) |
+| `Super+e` | Nemo (fichiers) |
+
+Fenêtres :
+
+| Bind | Action |
+|------|--------|
+| `Super+h/j/k/l` ou `Super+←↓↑→` | Focus gauche/bas/haut/droite |
+| `Super+Shift+h/j/k/l` ou `Super+Shift+←↓↑→` | Déplacer la fenêtre |
+| `Super+Ctrl+h/j/k/l` | Redimensionner (largeur/hauteur ±5) |
+| `Super+q` | Fermer la fenêtre |
+| `Super+f` | Plein écran |
+| `Super+t` | Flottant on/off |
+| `Super+Tab` / `Super+Shift+Tab` | Fenêtre suivante / précédente |
+| `Super` + glisser souris | Déplacer une fenêtre flottante |
+
+Layouts :
+
+| Bind | Action |
+|------|--------|
+| `Super+n` | Cycler split → tabbed → stacking |
+| `Super+v` | Split vertical |
+| `Super+g` | Split horizontal |
+
+Workspaces :
+
+| Bind | Action |
+|------|--------|
+| `Super+1..9` | Aller au workspace 1–9 |
+| `Super+Shift+1..9` | Y envoyer la fenêtre (sans suivre) — via `bindcode`, voir note |
+
+> **Note ch-fr** : `Super+Shift+1..9` est déclaré en `bindcode` (keycodes 10–18) et
+> non en `bindsym` : sur QWERTZ suisse, `Shift+1..9` produit `+ " * ç % & / ( )` et
+> un `bindsym $mod+Shift+1` ne se déclencherait jamais.
+
+Système :
+
+| Bind | Action |
+|------|--------|
+| `Super+Ctrl+r` | Recharger i3 (restart in-place) |
+| `Super+Ctrl+q` | Quitter i3 (confirmation i3-nagbar) |
+| `Super+Alt+l` | Verrouiller (xsecurelock) |
+| `Print` | Screenshot (flameshot gui) |
+| `XF86Audio↑/↓/Mute` | Volume ±5 % / muet (wpctl) |
+| `XF86AudioPlay/Next/Prev` | Lecture/pause · piste (playerctl) |
+| `XF86MonBrightness↑/↓` | Luminosité ±10 % (brightnessctl) |
 
 ---
 
