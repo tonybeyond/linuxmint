@@ -1,0 +1,154 @@
+# =============================================================================
+# i3 — style DTOS (Derek Taylor / DistroTube), adapté de tonybeyond/fedoraqtile
+# Palette : Doom One | Barre : Polybar (powerline arrows) | Gaps natifs i3 ≥ 4.22
+# Clavier : ch-fr (QWERTZ suisse — chiffres directs, y/z évités dans les binds)
+# =============================================================================
+
+set $mod Mod4
+
+# ── Palette Doom One ──────────────────────────────────────────────────────────
+set $bg      #282c34
+set $bg-alt  #1c1f24
+set $fg      #bbc2cf
+set $grey    #5b6268
+set $red     #ff6c6b
+set $green   #98be65
+set $yellow  #ecbe7b
+set $blue    #51afef
+set $magenta #c678dd
+set $cyan    #46d9ff
+set $orange  #da8548
+
+# ── Apparence (équivalent layout_theme qtile : border 2, margin 8) ────────────
+font pango:Mononoki Nerd Font Bold 11
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 8
+gaps outer 0
+smart_gaps off
+
+# class                 border   backgr.  text  indicator child_border
+client.focused          $blue    $blue    $bg   $cyan     $blue
+client.focused_inactive $bg-alt  $bg-alt  $fg   $bg-alt   $bg-alt
+client.unfocused        $bg-alt  $bg-alt  $grey $bg-alt   $bg-alt
+client.urgent           $red     $red     $bg   $red      $red
+
+# ── Applications (mêmes binds que qtile) ──────────────────────────────────────
+bindsym $mod+Return exec --no-startup-id sh -c 'command -v waveterm >/dev/null && exec waveterm || exec alacritty'
+bindsym $mod+Shift+Return exec --no-startup-id alacritty
+bindsym $mod+space exec --no-startup-id rofi -show drun
+bindsym $mod+b exec --no-startup-id sh -c 'exec $(command -v brave-origin || command -v brave-browser)'
+bindsym $mod+e exec --no-startup-id nemo
+
+# ── Fenêtres — navigation (HJKL + flèches) ────────────────────────────────────
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+# ── Fenêtres — déplacement ────────────────────────────────────────────────────
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# ── Fenêtres — taille (équivalent mod+ctrl+hjkl qtile) ────────────────────────
+bindsym $mod+Ctrl+h resize shrink width  5 px or 5 ppt
+bindsym $mod+Ctrl+j resize grow   height 5 px or 5 ppt
+bindsym $mod+Ctrl+k resize shrink height 5 px or 5 ppt
+bindsym $mod+Ctrl+l resize grow   width  5 px or 5 ppt
+
+# ── Fenêtres — gestion ────────────────────────────────────────────────────────
+bindsym $mod+q kill
+bindsym $mod+f fullscreen toggle
+bindsym $mod+t floating toggle
+bindsym $mod+Tab focus next
+bindsym $mod+Shift+Tab focus prev
+
+# ── Layouts (équivalent mod+n next_layout) ────────────────────────────────────
+bindsym $mod+n layout toggle split tabbed stacking
+bindsym $mod+v split v
+bindsym $mod+g split h
+# note : $mod+m (maximize qtile) ≈ tabbed ; $mod+f couvre le fullscreen
+
+# ── i3 — restart / quit (mêmes binds que qtile) ───────────────────────────────
+bindsym $mod+Ctrl+r restart
+bindsym $mod+Ctrl+q exec "i3-nagbar -t warning -m 'Quitter i3 ?' -B 'Oui' 'i3-msg exit'"
+
+# ── Workspaces 1-9 (mêmes icônes que la config qtile — affichées par Polybar) ─
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+# Envoyer sans suivre (équiv. switch_group=False qtile)
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+# ── Audio (PipeWire/wpctl — identique qtile) ──────────────────────────────────
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute        exec --no-startup-id wpctl set-mute  @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# ── Luminosité ────────────────────────────────────────────────────────────────
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set 10%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# ── Screenshot / verrouillage (identique qtile) ───────────────────────────────
+bindsym Print exec --no-startup-id flameshot gui
+bindsym $mod+Mod1+l exec --no-startup-id xsecurelock
+
+# ── Souris ────────────────────────────────────────────────────────────────────
+floating_modifier $mod
+focus_follows_mouse yes
+
+# ── Règles de flottement (identiques qtile) ───────────────────────────────────
+for_window [class="(?i)pavucontrol"] floating enable
+for_window [class="(?i)nitrogen"] floating enable
+for_window [class="Wfica"] floating enable
+for_window [title="Picture-in-Picture"] floating enable
+for_window [window_role="pop-up"] floating enable
+
+# ── Autostart (équivalent autostart.sh qtile) ─────────────────────────────────
+exec --no-startup-id setxkbmap ch fr
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec --no-startup-id picom -b
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id dunst
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id flameshot
+exec --no-startup-id xsetroot -cursor_name left_ptr

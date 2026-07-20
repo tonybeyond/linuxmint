@@ -1,0 +1,64 @@
+/* rofi — Doom One (DTOS palette) */
+configuration {
+    modi: "drun,run,window";
+    font: "Mononoki Nerd Font 13";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: "󰀻 ";
+    display-run: " ";
+    display-window: "󱂬 ";
+}
+
+* {
+    bg:      #282c34;
+    bg-alt:  #1c1f24;
+    fg:      #bbc2cf;
+    blue:    #51afef;
+    magenta: #c678dd;
+    grey:    #5b6268;
+
+    background-color: @bg;
+    text-color: @fg;
+}
+
+window {
+    width: 42%;
+    border: 2px;
+    border-color: @blue;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+inputbar {
+    children: [prompt, entry];
+    background-color: @bg-alt;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 0 0 12px 0;
+}
+
+prompt {
+    text-color: @blue;
+    padding: 0 8px 0 0;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px;
+    border-radius: 6px;
+}
+
+element selected {
+    background-color: @blue;
+    text-color: @bg;
+}
+
+element-icon {
+    size: 24px;
+    padding: 0 10px 0 0;
+}
